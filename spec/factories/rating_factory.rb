@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :rating do
-    game
+    league
     player
     pro false
     value Rating::DefaultValue

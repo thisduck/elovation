@@ -1,4 +1,4 @@
-class Game < ActiveRecord::Base
+class League < ActiveRecord::Base
   has_many :ratings, :dependent => :destroy
   has_many :results, :dependent => :destroy
 

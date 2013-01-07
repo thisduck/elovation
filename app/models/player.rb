@@ -1,7 +1,7 @@
 class Player < ActiveRecord::Base
   has_many :ratings, :order => "value DESC", :dependent => :destroy do
-    def find_or_create(game)
-      where(:game_id => game.id).first || create(:game => game, :value => Rating::DefaultValue, :pro => false)
+    def find_or_create(league)
+      where(:league_id => league.id).first || create(:league => league, :value => Rating::DefaultValue, :pro => false)
     end
   end
 
@@ -43,8 +43,8 @@ class Player < ActiveRecord::Base
     results.order("created_at DESC").limit(5)
   end
 
-  def rewind_rating!(game)
-    rating = ratings.where(:game_id => game.id).first
+  def rewind_rating!(league)
+    rating = ratings.where(:league_id => league.id).first
     rating.rewind!
   end
 end

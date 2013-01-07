@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 5) do
+ActiveRecord::Schema.define(:version => 20130107222911) do
 
-  create_table "games", :force => true do |t|
+  create_table "leagues", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -45,25 +45,25 @@ ActiveRecord::Schema.define(:version => 5) do
 
   create_table "ratings", :force => true do |t|
     t.integer  "player_id",  :null => false
-    t.integer  "game_id",    :null => false
+    t.integer  "league_id",  :null => false
     t.integer  "value",      :null => false
     t.boolean  "pro",        :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "ratings", ["game_id"], :name => "index_ratings_on_game_id"
+  add_index "ratings", ["league_id"], :name => "index_ratings_on_league_id"
   add_index "ratings", ["player_id"], :name => "index_ratings_on_player_id"
 
   create_table "results", :force => true do |t|
-    t.integer  "game_id",    :null => false
+    t.integer  "league_id",  :null => false
     t.integer  "loser_id",   :null => false
     t.integer  "winner_id",  :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "results", ["game_id"], :name => "index_results_on_game_id"
+  add_index "results", ["league_id"], :name => "index_results_on_league_id"
   add_index "results", ["loser_id"], :name => "index_results_on_loser_id"
   add_index "results", ["winner_id"], :name => "index_results_on_winner_id"
 

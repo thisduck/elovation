@@ -6,8 +6,12 @@
 development:
   adapter: postgresql
   database: elovation_development
-  host: localhost
+  host: 127.0.0.1
   min_messages: WARNING
+  port: 5432
+  username: root
+  password: secret
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

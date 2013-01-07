@@ -4,11 +4,11 @@ describe Rating do
   describe "active?" do
     it "is true if the player as played a game in the past 4 weeks" do
       player = FactoryGirl.create(:player)
-      game = FactoryGirl.create(:game)
-      rating = FactoryGirl.create(:rating, :player => player, :game => game)
-      result = FactoryGirl.create(:result, :winner => player, :game => game, :created_at => 5.weeks.ago)
+      league = FactoryGirl.create(:league)
+      rating = FactoryGirl.create(:rating, :player => player, :league => league)
+      result = FactoryGirl.create(:result, :winner => player, :league => league, :created_at => 5.weeks.ago)
       rating.active?.should == false
-      result = FactoryGirl.create(:result, :winner => player, :game => game, :created_at => 4.weeks.ago + 1.hour)
+      result = FactoryGirl.create(:result, :winner => player, :league => league, :created_at => 4.weeks.ago + 1.hour)
       rating.active?.should == true
     end
   end
@@ -29,15 +29,15 @@ describe Rating do
   end
 
   describe "most_recent_result" do
-    it "returns the most recent result for the game and player" do
+    it "returns the most recent result for the league and player" do
       player = FactoryGirl.create(:player)
-      game = FactoryGirl.create(:game)
-      rating = FactoryGirl.create(:rating, :player => player, :game => game)
-      result_5_weeks_ago = FactoryGirl.create(:result, :winner => player, :game => game, :created_at => 5.weeks.ago)
+      league = FactoryGirl.create(:league)
+      rating = FactoryGirl.create(:rating, :player => player, :league => league)
+      result_5_weeks_ago = FactoryGirl.create(:result, :winner => player, :league => league, :created_at => 5.weeks.ago)
       rating.most_recent_result.should == result_5_weeks_ago
-      result_4_weeks_ago = FactoryGirl.create(:result, :winner => player, :game => game, :created_at => 4.weeks.ago)
+      result_4_weeks_ago = FactoryGirl.create(:result, :winner => player, :league => league, :created_at => 4.weeks.ago)
       rating.most_recent_result.should == result_4_weeks_ago
-      result_6_weeks_ago = FactoryGirl.create(:result, :winner => player, :game => game, :created_at => 6.weeks.ago)
+      result_6_weeks_ago = FactoryGirl.create(:result, :winner => player, :league => league, :created_at => 6.weeks.ago)
       rating.most_recent_result.should == result_4_weeks_ago
     end
   end
@@ -50,12 +50,12 @@ describe Rating do
 
     it "includes number of games played" do
       player = FactoryGirl.create(:player)
-      game = FactoryGirl.create(:game)
-      2.times { FactoryGirl.create(:result, :game => game, :winner => player) }
+      league = FactoryGirl.create(:league)
+      2.times { FactoryGirl.create(:result, :league => league, :winner => player) }
 
-      rating = FactoryGirl.create(:rating, :player => player, :game => game)
+      rating = FactoryGirl.create(:rating, :player => player, :league => league)
 
-      rating.to_elo.games_played.should == 2
+      rating.to_elo.leagues_played.should == 2
     end
 
     it "includes the pro flag" do

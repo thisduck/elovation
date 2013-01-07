@@ -27,12 +27,12 @@
         <div class="well sidebar-nav">
           <ul class="nav nav-list">
             <li class="nav-header">
-              <span>Games</span>
-              <span><%= link_to "Add", new_game_path, :class => "btn btn-small btn-sidebar" %></span>
+              <span>Leagues</span>
+              <span><%= link_to "Add", new_league_path, :class => "btn btn-small btn-sidebar" %></span>
             </li>
-            <% Game.all.sort_by(&:name).each do |game| %>
-              <li class="<%= "active" if @game == game %>">
-                <%= link_to game.name, game_path(game) %>
+            <% League.all.sort_by(&:name).each do |league| %>
+              <li class="<%= "active" if @league == league %>">
+                <%= link_to league.name, league_path(league) %>
               </li>
             <% end %>
             <li class="nav-header">

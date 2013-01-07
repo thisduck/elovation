@@ -1,11 +1,11 @@
 class ResultsController < ApplicationController
-  before_filter :_find_game
+  before_filter :_find_league
 
   def create
-    response = ResultService.create(@game, params[:result])
+    response = ResultService.create(@league, params[:result])
 
     if response.success?
-      redirect_to game_path(@game)
+      redirect_to league_path(@league)
     else
       @result = response.result
       render :new
@@ -13,7 +13,7 @@ class ResultsController < ApplicationController
   end
 
   def destroy
-    result = @game.results.find_by_id(params[:id])
+    result = @league.results.find_by_id(params[:id])
 
     response = ResultService.destroy(result)
 
@@ -24,7 +24,7 @@ class ResultsController < ApplicationController
     @result = Result.new
   end
 
-  def _find_game
-    @game = Game.find(params[:game_id])
+  def _find_league
+    @league = League.find(params[:league_id])
   end
 end

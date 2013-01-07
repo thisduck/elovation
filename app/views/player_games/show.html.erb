@@ -1,15 +1,15 @@
 <div class="hero-unit">
-  <h1><%= @player.name %> - <%= @game.name %> (<%= @player.ratings.find_by_game_id(@game).value %>)</h1>
+  <h1><%= @player.name %> - <%= @league.name %> (<%= @player.ratings.find_by_league_id(@league).value %>)</h1>
 </div>
 
 <div class="row">
   <div class="span4">
     <h2>Head-to-Head Records</h2>
     <ol>
-      <% @game.all_ratings.each do |rating| %>
+      <% @league.all_ratings.each do |rating| %>
         <% opponent = rating.player %>
-        <% wins = @player.results.wins.for_game(@game).against(opponent).size %>
-        <% losses = @player.results.losses.for_game(@game).against(opponent).size %>
+        <% wins = @player.results.wins.for_league(@league).against(opponent).size %>
+        <% losses = @player.results.losses.for_league(@league).against(opponent).size %>
         <li class="<%= "gray" if @player != opponent and wins == 0 and losses == 0 %>" >
           <%= opponent.name %>
           <span class="pull-right">
@@ -25,7 +25,7 @@
 
   <div class="span4 offset1">
     <h2>Recent Games</h2>
-    <% @player.results.for_game(@game).limit(15).order('created_at desc').each do |result| %>
+    <% @player.results.for_league(@league).limit(15).order('created_at desc').each do |result| %>
       <li>
         <%= result.created_at.to_s(:short) %>
         -
@@ -35,7 +35,7 @@
           Lost to <%= result.winner.name %>
         <% end %>
         <% if result.most_recent? -%>
-          <%= link_to "Delete", game_result_path(@game, result), :class => "btn btn-danger", :method => :delete, :confirm => "Are you sure?" %>
+          <%= link_to "Delete", league_result_path(@league, result), :class => "btn btn-danger", :method => :delete, :confirm => "Are you sure?" %>
         <% end -%>
       </li>
     <% end %>

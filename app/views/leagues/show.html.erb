@@ -1,0 +1,29 @@
+<div class="hero-unit">
+  <h1><%= @league.name %></h1>
+  <section class="action-buttons">
+    <span><%= link_to 'Edit League', edit_league_path(@league), :class => "btn btn-primary" %></span>
+    <span><%= link_to "Add Result", new_league_result_path(@league), :class => "btn btn-success" %></span>
+    <% if @league.results.empty? %>
+      <span><%= link_to "Delete", league_path(@league), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %></span>
+    <% end %>
+  </section>
+</div>
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Recent Results</h2>
+    <% if @league.recent_results.any? %>
+      <ul>
+        <%= render :partial => 'result', :collection => @league.recent_results %>
+      </ul>
+    <% else %>
+      <span>No results, play some games!</span>
+    <% end %>
+  </div>
+  <div class="span6">
+    <h2>Active Ratings</h2>
+    <ol>
+      <%= render :partial => 'rating', :collection => @league.all_ratings.select(&:active?) %>
+    </ol>
+    <%= link_to "View All", league_ratings_path(@league) %>
+  </div>
+</div>

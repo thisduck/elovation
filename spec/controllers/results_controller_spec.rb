@@ -3,35 +3,35 @@ require "spec_helper"
 describe ResultsController do
   describe "new" do
     it "exposes a new result" do
-      game = FactoryGirl.create(:game)
+      league = FactoryGirl.create(:league)
 
-      get :new, :game_id => game
+      get :new, :league_id => league
 
       assigns(:result).should_not be_nil
     end
 
-    it "exposes the game" do
-      game = FactoryGirl.create(:game)
+    it "exposes the league" do
+      league = FactoryGirl.create(:league)
 
-      get :new, :game_id => game
+      get :new, :league_id => league
 
-      assigns(:game).should == game
+      assigns(:league).should == league
     end
   end
 
   describe "create" do
     context "with valid params" do
       it "creates a new result with the given players" do
-        game = FactoryGirl.create(:game, :results => [])
+        league = FactoryGirl.create(:league, :results => [])
         player_1 = FactoryGirl.create(:player)
         player_2 = FactoryGirl.create(:player)
 
-        post :create, :game_id => game, :result => {
+        post :create, :league_id => league, :result => {
           :winner_id => player_1.id,
           :loser_id => player_2.id
         }
 
-        result = game.reload.results.first
+        result = league.reload.results.first
 
         result.should_not be_nil
         result.players.map(&:id).sort.should == [player_1.id, player_2.id].sort
@@ -42,10 +42,10 @@ describe ResultsController do
 
     context "with invalid params" do
       it "renders the new page" do
-        game = FactoryGirl.create(:game, :results => [])
+        league = FactoryGirl.create(:league, :results => [])
         player = FactoryGirl.create(:player)
 
-        post :create, :game_id => game, :result => {
+        post :create, :league_id => league, :result => {
           :winner_id => player.id,
           :loser_id => player.id
         }
@@ -58,28 +58,28 @@ describe ResultsController do
   describe "destroy" do
     context "the most recent result for each player" do
       it "destroys the result and resets the elo for each player" do
-        game = FactoryGirl.create(:game, :results => [])
+        league = FactoryGirl.create(:league, :results => [])
         player_1 = FactoryGirl.create(:player)
         player_2 = FactoryGirl.create(:player)
 
-        ResultService.create(game, :winner_id => player_1.id, :loser_id => player_2.id).result
+        ResultService.create(league, :winner_id => player_1.id, :loser_id => player_2.id).result
 
-        player_1_rating = player_1.ratings.where(:game_id => game.id).first
-        player_2_rating = player_2.ratings.where(:game_id => game.id).first
+        player_1_rating = player_1.ratings.where(:league_id => league.id).first
+        player_2_rating = player_2.ratings.where(:league_id => league.id).first
 
         old_rating_1 = player_1_rating.value
         old_rating_2 = player_2_rating.value
 
-        result = ResultService.create(game, :winner_id => player_1.id, :loser_id => player_2.id).result
+        result = ResultService.create(league, :winner_id => player_1.id, :loser_id => player_2.id).result
 
         player_1_rating.reload.value.should_not == old_rating_1
         player_2_rating.reload.value.should_not == old_rating_2
 
-        request.env['HTTP_REFERER'] = game_path(game)
+        request.env['HTTP_REFERER'] = league_path(league)
 
-        delete :destroy, :game_id => game, :id => result
+        delete :destroy, :league_id => league, :id => result
 
-        response.should redirect_to(game_path(game))
+        response.should redirect_to(league_path(league))
 
         player_1_rating.reload.value.should == old_rating_1
         player_2_rating.reload.value.should == old_rating_2

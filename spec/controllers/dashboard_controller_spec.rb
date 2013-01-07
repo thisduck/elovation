@@ -2,14 +2,14 @@ require "spec_helper"
 
 describe DashboardController do
   describe "show" do
-    it "displays all players and games" do
+    it "displays all players and leagues" do
       player = FactoryGirl.create(:player)
-      game = FactoryGirl.create(:game)
+      league = FactoryGirl.create(:league)
 
       get :show
 
       assigns(:players).should == [player]
-      assigns(:games).should == [game]
+      assigns(:leagues).should == [league]
     end
   end
 end

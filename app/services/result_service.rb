@@ -1,5 +1,5 @@
 class ResultService
-  def self.create(game, params)
+  def self.create(league, params)
     players = []
     begin
       players.push Player.find(params[:winner_id])
@@ -7,7 +7,7 @@ class ResultService
     rescue ActiveRecord::RecordNotFound
     end
 
-    result = game.results.build(
+    result = league.results.build(
       :winner_id => params[:winner_id],
       :loser_id => params[:loser_id],
       :players => players
@@ -15,7 +15,7 @@ class ResultService
 
     if result.valid?
       Result.transaction do
-        RatingService.update(game, result.winner, result.loser)
+        RatingService.update(league, result.winner, result.loser)
         result.save!
 
         OpenStruct.new(
@@ -36,7 +36,7 @@ class ResultService
 
     Result.transaction do
       [result.winner, result.loser].each do |player|
-        player.rewind_rating!(result.game)
+        player.rewind_rating!(result.league)
       end
 
       result.destroy

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :result do
-    game
+    league
     association :loser, :factory => :player
     association :winner, :factory => :player
 

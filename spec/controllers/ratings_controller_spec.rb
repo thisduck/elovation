@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe RatingsController do
   describe "index" do
-    it "renders ratins for the given game" do
-      game = FactoryGirl.create(:game)
-      rating = FactoryGirl.create(:rating, :game => game)
+    it "renders ratins for the given league" do
+      league = FactoryGirl.create(:league)
+      rating = FactoryGirl.create(:rating, :league => league)
 
-      get :index, :game_id => game
+      get :index, :league_id => league
 
-      assigns(:game).should == game
+      assigns(:league).should == league
       response.should render_template(:index)
     end
   end

@@ -1,5 +1,5 @@
 class RatingsController < ApplicationController
   def index
-    @game = Game.find(params[:game_id])
+    @league = League.find(params[:league_id])
   end
 end

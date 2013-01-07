@@ -1,11 +1,11 @@
 players = 5.times.map { FactoryGirl.create(:player) }
-games = 5.times.map { FactoryGirl.create(:game) }
+leagues = 5.times.map { FactoryGirl.create(:league) }
 
-games.each do |game|
+leagues.each do |league|
   3.times do
     winner = players[rand(5)]
     loser = players.reject { |p| p == winner }[rand(4)]
 
-    ResultService.create(game, :winner_id => winner.id, :loser_id => loser.id)
+    ResultService.create(league, :winner_id => winner.id, :loser_id => loser.id)
   end
 end

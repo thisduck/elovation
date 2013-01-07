@@ -1,7 +1,7 @@
 class Rating < ActiveRecord::Base
   DefaultValue = 1000
 
-  belongs_to :game
+  belongs_to :league
   belongs_to :player
   has_many :history_events, :class_name => "RatingHistoryEvent", :dependent => :destroy, :order => "created_at DESC"
 
@@ -21,13 +21,13 @@ class Rating < ActiveRecord::Base
   end
 
   def most_recent_result
-    player.results.for_game(game).most_recent_first.first
+    player.results.for_league(league).most_recent_first.first
   end
 
   def to_elo
     Elo::Player.new(
       :rating => value,
-      :games_played => player.results.where(:game_id => game.id).count,
+      :games_played => player.results.where(:league_id => league.id).count,
       :pro => pro?
     )
   end
