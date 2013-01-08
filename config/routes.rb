@@ -1,4 +1,6 @@
 Elovation::Application.routes.draw do
+  devise_for :players
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -47,12 +49,12 @@ Elovation::Application.routes.draw do
   #   end
 
   resources :leagues do
-    resources :results, :only => [:create, :destroy, :new]
-    resources :ratings, :only => [:index]
+    resources :results, only: [:create, :destroy, :new]
+    resources :ratings, only: [:index]
   end
 
-  resources :players do
-    resources :leagues, :only => [:show], :controller => 'player_leagues'
+  resources :players, only: :show do
+    resources :leagues, only: :show, :controller => 'player_leagues'
   end
 
   match '/dashboard' => 'dashboard#show', :as => :dashboard

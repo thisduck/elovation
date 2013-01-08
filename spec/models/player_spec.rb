@@ -30,11 +30,6 @@ describe Player do
     end
 
     context "email" do
-      it "can be blank" do
-        player = FactoryGirl.build(:player, :email => "")
-        player.should be_valid
-      end
-
       it "must be a valid email format" do
         player = Player.new
         player.email = "invalid-email-address"

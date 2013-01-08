@@ -8,7 +8,7 @@
   <strong><%= result.loser.name %></strong>
   in
   <strong><%= result.league.name %></strong>
-  <% if result.most_recent? -%>
+  <% if result.most_recent? and can?(:destroy, Result) -%>
     <%= link_to "Delete", league_result_path(result.league, result), :class => "btn btn-danger", :method => :delete, :confirm => "Are you sure?" %>
   <% end -%>
 </li>

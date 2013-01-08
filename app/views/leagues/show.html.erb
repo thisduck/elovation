@@ -1,9 +1,13 @@
 <div class="hero-unit">
   <h1><%= @league.name %></h1>
   <section class="action-buttons">
-    <span><%= link_to 'Edit League', edit_league_path(@league), :class => "btn btn-primary" %></span>
-    <span><%= link_to "Add Result", new_league_result_path(@league), :class => "btn btn-success" %></span>
-    <% if @league.results.empty? %>
+    <% if can? :manage, League %>
+      <span><%= link_to 'Edit League', edit_league_path(@league), :class => "btn btn-primary" %></span>
+    <% end %>
+    <% if can? :create, Result %>
+      <span><%= link_to "Add Result", new_league_result_path(@league), :class => "btn btn-success" %></span>
+    <% end %>
+    <% if @league.results.empty? and can?(:manage, League) %>
       <span><%= link_to "Delete", league_path(@league), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %></span>
     <% end %>
   </section>

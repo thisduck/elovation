@@ -1,4 +1,9 @@
 class Player < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable, :rememberable#:recoverable, :trackable, :validatable
+
   has_many :ratings, :order => "value DESC", :dependent => :destroy do
     def find_or_create(league)
       where(:league_id => league.id).first || create(:league => league, :value => Rating::DefaultValue, :pro => false)
@@ -29,8 +34,8 @@ class Player < ActiveRecord::Base
     results.each { |result| result.destroy }
   end
 
-  validates :name, :uniqueness => true, :presence => true
-  validates :email, :format => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i, :allow_blank => true
+  validates :name, :email, uniqueness: true, presence: true
+  validates :email, format: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
 
   def as_json
     {
@@ -46,5 +51,9 @@ class Player < ActiveRecord::Base
   def rewind_rating!(league)
     rating = ratings.where(:league_id => league.id).first
     rating.rewind!
+  end
+  
+  def admin?
+    role == 'admin'
   end
 end

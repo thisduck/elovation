@@ -1,12 +1,8 @@
 <%= form_for [@league, @result], :html => {:class => "well form-search"} do |f| %>
   <%= f.error_messages %>
-
+  <span class="defeats"><strong>Who Beat You?</strong></span>
   <%= f.select :winner_id, player_options, {:include_blank => 'Select a Player'} %>
-
-  <span class="defeats"><strong>Defeats</strong></span>
-
-  <%= f.select :loser_id, player_options, {:include_blank => 'Select a Player'} %>
-
+  <%= f.hidden_field :loser_id, value: current_player.id %>
   <span class="inline-submit">
     <%= f.submit :class => "btn btn-primary" %>
   </span>

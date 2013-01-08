@@ -3,7 +3,7 @@ class LeaguesController < ApplicationController
 
   allowed_params :league => [:name]
 
-  before_filter :_find_league, :only => [:destroy, :edit, :show, :update]
+  load_and_authorize_resource
 
   def create
     @league = League.new(clean_params[:league])

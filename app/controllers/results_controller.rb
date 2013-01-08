@@ -1,7 +1,9 @@
 class ResultsController < ApplicationController
-  before_filter :_find_league
+  load_and_authorize_resource :league
+  load_and_authorize_resource :result, :through => :league
 
   def create
+    raise "Create results attempt with invalid loser" unless params[:result][:loser_id].to_i == current_player.id
     response = ResultService.create(@league, params[:result])
 
     if response.success?
@@ -22,9 +24,5 @@ class ResultsController < ApplicationController
 
   def new
     @result = Result.new
-  end
-
-  def _find_league
-    @league = League.find(params[:league_id])
   end
 end
