@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe ResultsController do
+  
+  let(:admin) { FactoryGirl.create :admin}
+  before { controller.stubs(:current_player).returns(admin) }
+  
   describe "new" do
     it "exposes a new result" do
       league = FactoryGirl.create(:league)
@@ -25,7 +29,7 @@ describe ResultsController do
         league = FactoryGirl.create(:league, :results => [])
         player_1 = FactoryGirl.create(:player)
         player_2 = FactoryGirl.create(:player)
-
+        controller.stubs(:current_player).returns(player_2)
         post :create, :league_id => league, :result => {
           :winner_id => player_1.id,
           :loser_id => player_2.id
@@ -44,7 +48,7 @@ describe ResultsController do
       it "renders the new page" do
         league = FactoryGirl.create(:league, :results => [])
         player = FactoryGirl.create(:player)
-
+        controller.stubs(:current_player).returns(player)
         post :create, :league_id => league, :result => {
           :winner_id => player.id,
           :loser_id => player.id

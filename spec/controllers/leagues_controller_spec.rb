@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe LeaguesController do
+  
+  let(:admin) { FactoryGirl.create :admin}
+  before { controller.stubs(:current_player).returns(admin) }
+  
   describe "new" do
     it "exposes a new league" do
       get :new

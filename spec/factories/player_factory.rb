@@ -3,4 +3,8 @@ FactoryGirl.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }
   end
+  
+  factory :admin, parent: :player do
+    role 'admin'
+  end
 end
