@@ -7,6 +7,8 @@ class Player < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :rememberable#:recoverable, :trackable, :validatable
 
+  attr_accessible :name, :email, :password, :current_password
+
   before_create :set_first_player_admin
 
   has_many :ratings, :order => "value DESC", :dependent => :destroy do
