@@ -4,6 +4,8 @@ class Player < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :rememberable#:recoverable, :trackable, :validatable
 
+  before_create :set_first_player_admin
+
   has_many :ratings, :order => "value DESC", :dependent => :destroy do
     def find_or_create(league)
       where(:league_id => league.id).first || create(:league => league, :value => Rating::DefaultValue, :pro => false)
@@ -56,4 +58,10 @@ class Player < ActiveRecord::Base
   def admin?
     role == 'admin'
   end
+
+  private
+
+    def set_first_player_admin
+      self.role = 'admin' if Player.count.zero?
+    end
 end
