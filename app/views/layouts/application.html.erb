@@ -53,7 +53,12 @@
             </li>
             <% Player.all.sort_by(&:name).each do |player| %>
               <li class="<%= "active" if @player == player %>">
-                <%= link_to player.name, player_path(player) %>
+                <span>
+                  <%= link_to player.name, player_path(player) %>
+                  <% if can?(:toggle_admin, player) %>
+                    <%= link_to "#{player.admin? ? 'Remove' : 'Set'} admin", toggle_admin_player_path(player), method: :post, class: "btn btn-small btn-sidebar" %>
+                  <% end %>
+                </span>
               </li>
             <% end %>
           </ul>

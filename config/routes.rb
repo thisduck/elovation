@@ -54,6 +54,7 @@ Elovation::Application.routes.draw do
   end
 
   resources :players, only: :show do
+    post :toggle_admin, on: :member
     resources :leagues, only: :show, :controller => 'player_leagues'
   end
 

@@ -8,9 +8,8 @@ development:
   database: elovation_development
   host: 127.0.0.1
   min_messages: WARNING
-  # port: 5432
-  # username: root
-  # password: secret
+  username: root
+  password: secret
 
 
 # Warning: The database defined as "test" will be erased and
@@ -21,3 +20,5 @@ test:
   database: elovation_test
   host: localhost
   min_messages: WARNING
+  username: root
+  password: secret

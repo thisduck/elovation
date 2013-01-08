@@ -5,6 +5,7 @@ class Ability
     player ||= Player.new # guest player (not logged in)
     if player.admin?
       can :manage, :all
+      cannot :toggle_admin, Player, id: player.id
     else
       can :read, :all
       can :create, Result if player.name.present?

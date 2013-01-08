@@ -1,4 +1,7 @@
 class Player < ActiveRecord::Base
+
+  ADMIN_ROLE = 'admin'
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -56,12 +59,17 @@ class Player < ActiveRecord::Base
   end
   
   def admin?
-    role == 'admin'
+    role == ADMIN_ROLE
+  end
+
+  def toggle_admin!
+    self.role = admin? ? nil : ADMIN_ROLE
+    save
   end
 
   private
 
     def set_first_player_admin
-      self.role = 'admin' if Player.count.zero?
+      self.role = ADMIN_ROLE if Player.count.zero?
     end
 end
