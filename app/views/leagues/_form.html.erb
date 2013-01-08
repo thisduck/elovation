@@ -11,6 +11,13 @@
       </div>
     </div>
 
+    <div class="control-group">
+      <%= f.label :result_rule, :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :result_rule, result_rule_collection, :class => "input-xlarge" %>
+      </div>
+    </div>
+
     <div class="form-actions">
       <%= f.submit :class => "btn btn-primary" %>
       <%= link_to "Cancel", root_path, :class => "btn btn-warning" %>

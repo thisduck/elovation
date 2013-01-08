@@ -9,6 +9,7 @@ describe ResultService do
 
       response = ResultService.create(
         league,
+        player1,
         :winner_id => player1.id.to_s,
         :loser_id => player2.id.to_s
       )
@@ -27,6 +28,7 @@ describe ResultService do
 
       response = ResultService.create(
         league,
+        player,
         :winner_id => player.id.to_s,
         :loser_id => player.id.to_s
       )
@@ -40,6 +42,7 @@ describe ResultService do
 
       response = ResultService.create(
         league,
+        player,
         :winner_id => player.id.to_s,
         :loser_id => nil
       )
@@ -48,6 +51,7 @@ describe ResultService do
 
       response = ResultService.create(
         league,
+        player,
         :winner_id => nil,
         :loser_id => player.id.to_s
       )
@@ -63,6 +67,7 @@ describe ResultService do
 
         ResultService.create(
           league,
+          player1,
           :winner_id => player1.id.to_s,
           :loser_id => player2.id.to_s
         )
@@ -87,6 +92,7 @@ describe ResultService do
 
       result = ResultService.create(
         league,
+        player_1,
         :winner_id => player_1.id.to_s,
         :loser_id => player_2.id.to_s
       ).result

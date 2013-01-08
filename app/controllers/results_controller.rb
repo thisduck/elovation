@@ -3,8 +3,8 @@ class ResultsController < ApplicationController
   load_and_authorize_resource :result, :through => :league
 
   def create
-    raise "Create results attempt with invalid loser" unless params[:result][:loser_id].to_i == current_player.id
-    response = ResultService.create(@league, params[:result])
+    swap_winner_and_loser if params[:res] == 'Lost'
+    response = ResultService.create(@league, current_player, params[:result])
 
     if response.success?
       redirect_to league_path(@league)
@@ -25,4 +25,12 @@ class ResultsController < ApplicationController
   def new
     @result = Result.new
   end
+
+  private
+
+    def swap_winner_and_loser
+      temp = params[:result][:winner_id]
+      params[:result][:winner_id] = params[:result][:loser_id]
+      params[:result][:loser_id] = temp
+    end
 end

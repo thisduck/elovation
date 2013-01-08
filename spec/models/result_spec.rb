@@ -57,7 +57,7 @@ describe Result do
     context "base validations" do
       it "requires a winner" do
         player = FactoryGirl.build(:player)
-        result = Result.new(:loser => player)
+        result = Result.new(loser: player, league: FactoryGirl.build(:league))
 
         result.should_not be_valid
         result.errors[:winner].should == ["can't be blank"]
@@ -65,7 +65,7 @@ describe Result do
 
       it "requires a loser" do
         player = FactoryGirl.build(:player)
-        result = Result.new(:winner => player)
+        result = Result.new(winner: player, league: FactoryGirl.build(:league))
 
         result.should_not be_valid
         result.errors[:loser].should == ["can't be blank"]
@@ -75,8 +75,9 @@ describe Result do
         player = FactoryGirl.build(:player, :name => nil)
 
         result = Result.new(
-          :winner => player,
-          :loser => player
+          winner: player,
+          loser: player,
+          league: FactoryGirl.build(:league)
         )
 
         result.should_not be_valid
@@ -84,7 +85,7 @@ describe Result do
       end
 
       it "does not complain about similarity when both winner and loser are nil" do
-        result = Result.new()
+        result = Result.new(league: FactoryGirl.build(:league))
 
         result.should_not be_valid
         result.errors[:base].should_not == ["Winner and loser can't be the same player"]

@@ -11,12 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108055922) do
+ActiveRecord::Schema.define(:version => 20130108195814) do
 
   create_table "leagues", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "name",                                :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.string   "result_rule", :default => "any_user"
   end
 
   create_table "players", :force => true do |t|
@@ -66,10 +67,12 @@ ActiveRecord::Schema.define(:version => 20130108055922) do
     t.integer  "winner_id",  :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "poster_id"
   end
 
   add_index "results", ["league_id"], :name => "index_results_on_league_id"
   add_index "results", ["loser_id"], :name => "index_results_on_loser_id"
+  add_index "results", ["poster_id"], :name => "index_results_on_poster_id"
   add_index "results", ["winner_id"], :name => "index_results_on_winner_id"
 
 end

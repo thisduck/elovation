@@ -13,6 +13,7 @@ gem 'elo', '0.1.0'
 gem 'params_cleaner', '0.4.2'
 gem "devise", "~> 2.1.2"
 gem "cancan", "~> 1.6.8"
+gem "haml", "~> 3.1.7"
 
 # Gems used only for assets and not required
 # in production environments by default.

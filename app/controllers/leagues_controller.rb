@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
   include ParamsCleaner
 
-  allowed_params :league => [:name]
+  allowed_params :league => [:name, :result_rule]
 
   load_and_authorize_resource
 

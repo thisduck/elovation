@@ -1,5 +1,5 @@
 class ResultService
-  def self.create(league, params)
+  def self.create(league, poster, params)
     players = []
     begin
       players.push Player.find(params[:winner_id])
@@ -8,9 +8,10 @@ class ResultService
     end
 
     result = league.results.build(
-      :winner_id => params[:winner_id],
-      :loser_id => params[:loser_id],
-      :players => players
+      winner_id: params[:winner_id],
+      loser_id: params[:loser_id],
+      poster_id: poster.id,
+      players: players
     )
 
     if result.valid?

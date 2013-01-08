@@ -1,0 +1,28 @@
+= form_for [@league, @result], :html => {:class => "well form-search"} do |f|
+  = f.error_messages
+  - case @league.result_rule
+    - when 'any_user'
+      = f.select :winner_id, player_options, {:include_blank => 'Select a Player'}
+      %span.defeats
+        %strong Defeated
+      = f.select :loser_id, player_options, {:include_blank => 'Select a Player'}
+    - when 'any_participant'
+      %span.defeats
+        %strong I played
+      = f.select :loser_id, player_options(true), {include_blank: 'Select a Player'}
+      %span.defeats
+        %strong and I
+      = select_tag :res, options_for_select(%w(Won Lost))
+      = f.hidden_field :winner_id, value: current_player.id
+    - when 'winner'
+      %span.defeats
+        %strong Who did you beat?
+      = f.select :loser_id, player_options(true), {include_blank: 'Select a Player'}
+      = f.hidden_field :winner_id, value: current_player.id
+    - when 'loser'
+      %span.defeats
+        %strong Who beat you?
+      = f.select :winner_id, player_options(true), {include_blank: 'Select a Player'}
+      = f.hidden_field :loser_id, value: current_player.id
+
+  %span.inline-submit= f.submit class: "btn btn-primary"

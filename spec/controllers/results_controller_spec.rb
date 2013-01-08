@@ -66,7 +66,7 @@ describe ResultsController do
         player_1 = FactoryGirl.create(:player)
         player_2 = FactoryGirl.create(:player)
 
-        ResultService.create(league, :winner_id => player_1.id, :loser_id => player_2.id).result
+        ResultService.create(league, player_1, winner_id: player_1.id, loser_id: player_2.id).result
 
         player_1_rating = player_1.ratings.where(:league_id => league.id).first
         player_2_rating = player_2.ratings.where(:league_id => league.id).first
@@ -74,7 +74,7 @@ describe ResultsController do
         old_rating_1 = player_1_rating.value
         old_rating_2 = player_2_rating.value
 
-        result = ResultService.create(league, :winner_id => player_1.id, :loser_id => player_2.id).result
+        result = ResultService.create(league, player_1, winner_id: player_1.id, loser_id: player_2.id).result
 
         player_1_rating.reload.value.should_not == old_rating_1
         player_2_rating.reload.value.should_not == old_rating_2
