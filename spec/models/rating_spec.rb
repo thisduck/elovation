@@ -55,7 +55,7 @@ describe Rating do
 
       rating = FactoryGirl.create(:rating, :player => player, :league => league)
 
-      rating.to_elo.leagues_played.should == 2
+      rating.to_elo.games_played.should == 2
     end
 
     it "includes the pro flag" do
