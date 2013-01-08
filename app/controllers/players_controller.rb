@@ -6,6 +6,6 @@ class PlayersController < ApplicationController
 
   def toggle_admin
     @player.toggle_admin!
-    redirect_to root_url
+    redirect_to @player
   end
 end

@@ -1,6 +1,10 @@
 <div class="hero-unit">
   <h1><%= @player.name %></h1>
   <div><%= image_tag(gravatar_url(@player, :size => 80)) %></div>
+  <% if can?(:toggle_admin, @player) %>
+    <br/>
+    <span><%= link_to "#{@player.admin? ? 'Remove' : 'Set'} admin", toggle_admin_player_path(@player), method: :post, class: "btn btn-primary" %></span>
+  <% end %>
 </div>
 
 <div class="row-fluid">
